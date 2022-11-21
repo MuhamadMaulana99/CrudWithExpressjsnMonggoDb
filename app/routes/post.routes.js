@@ -2,6 +2,7 @@ module.exports =(app) =>{
   const posts = require('../controllers/post.controllers');
   const auth = require('../controllers/auth.controller');
   const router = require('express').Router();
+  const routerAuths = require('express').Router();
 
   router.get('/',posts.findAll);
   router.get('/:id',posts.findOne);
@@ -10,6 +11,11 @@ module.exports =(app) =>{
   router.delete('/:id', posts.delete);
 
   // login
-  router.post('/daftar', auth.create );
+  routerAuths.post('/daftar', auth.create );  
+  routerAuths.post('/loginUser', auth.LoginUsers );  
+  routerAuths.get('/',auth.findAll);
+  routerAuths.delete('/:id',auth.deleteUsers);
+  routerAuths.put('/:id',auth.updateUsers);
   app.use('/api/post', router);
+  app.use('/api/login', routerAuths);
 }

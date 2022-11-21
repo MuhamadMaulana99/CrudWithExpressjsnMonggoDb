@@ -1,5 +1,6 @@
+
 const db = require('../models');
-const Post = db.posts;
+const Post = db.posts
 
 
 exports.findAll = (req,res) =>{
