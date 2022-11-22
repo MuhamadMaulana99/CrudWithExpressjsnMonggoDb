@@ -9,7 +9,7 @@ const Auth = db.auth;
 exports.LoginUsers = async (req, res) => {
   const { userName, password } = req.body
   // console.log(user);
-  const user = await Auth.findOne({$or: [{ userName: userName }, { email: userName }] })
+  const user = await Auth.findOne({ $or: [{ userName: userName }, { email: userName }] })
   if (user.userName) {
     const passUser = await bcryptjs.compare(password, user.password)
     if (passUser) {
@@ -20,18 +20,27 @@ exports.LoginUsers = async (req, res) => {
       return res.status(200).json({
         message: 'berhasil',
         token: token,
-        // userName: userName,
-        // password: password
       })
-    }else{
+    } else {
       return res.status(404).json({
-        message: 'Username Atau Email Tidak Tersedia Di Database',
-        // token: token,
-        // // userName: userName,
-        // // password: password
+        status: false,
+        message: 'Password Tidak Tersedia Di Database',
       })
     }
+  } else {
+    return res.status(404).json({
+      status: false,
+      message: 'Username Tidak Tersedia Di Database',
+    })
   }
+}
+exports.getSingleUser = async (req, res) =>{
+  // console.log(req.id);
+  const user = await Auth.findOne({_id: req.id})
+  return res.status(200).json({
+    message: 'berhasil di panggil',
+    data: user
+  })
 }
 exports.create = async (req, res) => {
   const { userName, email, password } = req.body
