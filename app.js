@@ -1,10 +1,26 @@
 const express = require('express');
 const cors = require('cors');
 const db = require('./app/models/');
-
-
 const app = express();
 
+
+const corsOptions = {
+  methods: 'GET',
+	origin: ['http://localhost:3000', 'http://localhost:4000',],
+	optionsSuccessStatus: 200 
+};
+
+// app.use((_, res, next) => {
+//   res.set('Access-Control-Allow-Origin', '*');
+//   res.set('Access-Control-Allow-Methods', 'PUT,POST,GET,DELETE,OPTIONS');
+//   res.set(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, Content-Type, Accept'
+//   );
+//   return next();
+// }); 
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended : true}));
 // mongoose.set("useFindAndModify", false);
